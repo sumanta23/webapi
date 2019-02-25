@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>slurm job controller</title>
+</head>
+<script>
+function readCode(){
+	x = document.getElementById("code").value;
+	console.log(x);
+	var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
+        xmlhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+             document.getElementById("demo").innerHTML = this.responseText;
+          }
+        };
+	xmlhttp.open("POST", "/submitjob");
+	xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+	xmlhttp.send(JSON.stringify(x));
+}
+</script>
+<body>
+<header class="navbar">
+      <span>
+	<textarea id="code" rows="20" cols="80" name="code">
+	env
+	</textarea>
+	<p id="demo" rows="20" cols="80" name="demo"/>
+      </span>
+
+     <br>
+    <button type="submit" onclick="readCode()" >submitjob</button>
+  </form>
+
+</header>
+
+</body>
+</html>
