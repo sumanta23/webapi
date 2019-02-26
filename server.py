@@ -1,12 +1,10 @@
 from flask import Flask, abort, request, jsonify, render_template 
 import json
-from cors import crossdomain
 import uuid
 app = Flask(__name__, template_folder='.')
 
 from slurmpy import Slurm
 
-origins = "192.168.33.3:8081, 192.168.33.33:8888"
 
 
 @app.route('/')
@@ -14,8 +12,6 @@ def main_handler():
    return render_template('index.html')
 
 @app.route('/submitjob', methods=["POST"])
-@crossdomain(origin=origins, methods=['POST'],
-             headers=['Accept', 'Content-Type', 'X-Requested-With'])
 def submitJob():
     if not request.json:
         abort(400)
@@ -31,7 +27,7 @@ def submitJob():
 
     print(kargs)
     s = Slurm(str(uuid.uuid4()), kargs)
-    code = "MYDATA=/data"+account+"\n"+code
+    code = "MYDATA=/data/"+account+"\n"+code
     x = s.run(code);
     print("result",x)
     return jsonify(x)
